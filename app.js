@@ -29,19 +29,52 @@ function resetStars() {
     return stars;
 }
 
+// Save movie rating and add it to the list
 function saveMovie() {
     $('form').on('submit', function (e) {
         e.preventDefault();
-        const movieTitle = $('#movie-title')[0].value;
+        const movieTitle = $('#movie-title')[0].value.trim();
         const movieRating = $('.fas').length;
 
-        console.log(movieTitle, movieRating);
+        const newRow = $('<tr></tr>');
 
-        $('<tr></tr>').addClass(movieTitle).appendTo('tbody');
-        $('<td></td>').text(movieTitle).appendTo(`.${movieTitle}`);
-        $('<td></td>').text(movieRating).appendTo(`.${movieTitle}`);
+        $('<td></td>').text(movieTitle).attr('id', movieTitle).appendTo(newRow);
+        $('<td></td>').text(movieRating).appendTo(newRow);
+
+        if (!checkDuplicates(movieTitle)) {
+            newRow.appendTo('tbody');
+            sortMovies();
+        }
+
     })
 }
+
+// Check to see if the movie is already in the list
+function checkDuplicates(title) {
+    try {
+        if (title === $(`#${title}`)[0].innerText) {
+            alert('This movie is already in the list!');
+            return true;
+        } else {
+            return false;
+        }
+    }
+    catch (e) {
+        return false
+    }
+
+}
+
+// Sort through the arrays and eleminate duplicates
+function sortMovies() {
+    let movies = Array.from($('tbody')[0].children);
+
+    console.log(movies);
+
+
+}
+
+
 
 highlightStars();
 saveMovie();
