@@ -40,10 +40,13 @@ function saveMovie() {
 
         $('<td></td>').text(movieTitle).attr('id', movieTitle).appendTo(newRow);
         $('<td></td>').text(movieRating).appendTo(newRow);
+        $('<button class="delete-button">Remove</button>').appendTo(newRow);
 
         if (!checkDuplicates(movieTitle)) {
             newRow.appendTo('tbody');
-            sortMovies();
+            $('#movie-title')[0].value = '';
+            $('#movie-title')[0].focus();
+            resetStars();
         }
 
     })
@@ -65,16 +68,13 @@ function checkDuplicates(title) {
 
 }
 
-// Sort through the arrays and eleminate duplicates
-function sortMovies() {
-    let movies = Array.from($('tbody')[0].children);
-
-    console.log(movies);
-
-
+// Remove movie from the list when the delete button is clicked
+function deleteMovie() {
+    $('#movie-list').on('click', '.delete-button', function () {
+        $(this).parent().remove();
+    })
 }
-
-
 
 highlightStars();
 saveMovie();
+deleteMovie();
